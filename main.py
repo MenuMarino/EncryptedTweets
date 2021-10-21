@@ -1,4 +1,5 @@
 import keys_management
+import crypto
 
 # keys_management.generate_keys()
 
@@ -7,8 +8,8 @@ public_key = private_key.public_key()
 
 message = b'Hola bots'
 
-encrypted_message = keys_management.encrypt(message, public_key)
-original_message = keys_management.decrypt(encrypted_message, private_key)
+encrypted_message = crypto.encrypt(message, public_key)
+original_message = crypto.decrypt(encrypted_message, private_key)
 
 print(encrypted_message)
 print(original_message)

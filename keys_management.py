@@ -1,6 +1,6 @@
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives import serialization
 
 def generate_keys(private_key_fn = "private_key.pem"):
     private_key = rsa.generate_private_key(
@@ -26,25 +26,3 @@ def read_private_key(file = "private_key.pem"):
             backend=default_backend()
         )
     return private_key
-
-def encrypt(message, key):
-    encrypted = key.encrypt(
-        message,
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=hashes.SHA256()),
-            algorithm=hashes.SHA256(),
-            label=None
-        )
-    )
-    return encrypted
-
-def decrypt(encrypted_message, key):
-    original_message = key.decrypt(
-        encrypted_message,
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=hashes.SHA256()),
-            algorithm=hashes.SHA256(),
-            label=None
-        )
-    )
-    return original_message

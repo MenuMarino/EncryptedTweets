@@ -1,15 +1,9 @@
 import keys_management
 import crypto
 
-# keys_management.generate_keys()
+keys_management.generate_keys()
 
-private_key = keys_management.read_private_key()
+private_key = keys_management.read_key("private_key.pem")
 public_key = private_key.public_key()
 
-message = b'Hola bots'
-
-encrypted_message = crypto.encrypt(message, public_key)
-original_message = crypto.decrypt(encrypted_message, private_key)
-
-print(encrypted_message)
-print(original_message)
+keys_management.write_key(public_key, "public.key.pem", False)

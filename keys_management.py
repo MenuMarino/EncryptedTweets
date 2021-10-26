@@ -42,3 +42,11 @@ def read_key(file, private = True):
                 backend=default_backend()
             )
     return key
+
+def convert_to_string(key):
+    pem = key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+    )
+    pem = pem.decode('utf-8')
+    return pem

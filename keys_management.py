@@ -2,6 +2,8 @@ from os import write
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.serialization import load_der_public_key
+import base64
 
 def generate_keys(private_key_fn = "private_key.pem"):
     private_key = rsa.generate_private_key(
@@ -50,3 +52,9 @@ def convert_to_string(key):
     )
     pem = pem.decode('utf-8')
     return pem
+
+def convert_to_key(key_str):
+    b64data = '\n'.join(key_str.splitlines()[1:-1])
+    derdata = base64.b64decode(b64data)
+    key = load_der_public_key(derdata, default_backend())
+    return key

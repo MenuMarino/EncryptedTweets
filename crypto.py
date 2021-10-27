@@ -21,4 +21,4 @@ def decrypt(encrypted_message, key):
             label=None
         )
     )
-    return original_message
+    return original_message.decode('utf-8')

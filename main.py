@@ -1,3 +1,4 @@
+from flask.json import jsonify
 import keys_management
 import crypto
 import twitter_management
@@ -24,14 +25,22 @@ def landing():
 def send():
     tweet = request.json["tweet"]
     user = request.json["user"]
-    # key = keys_management.get_key_from_user(user)
-    key = keys_management.read_key("private_key.pem")
-    encrypted_tweet = crypto.encrypt(bytes(tweet, encoding='utf8'), key.public_key())
-    return encrypted_tweet
+    key = twitter_management.get_key_from_user(twitter, user)
+    if key:
+        encrypted_tweet = crypto.encrypt(bytes(tweet, encoding='utf8'), keys_management.convert_to_key(key))
+        encrypted_tweet = twitter_management.encode_tweet(encrypted_tweet)
+        encrypted_tweet = "#Encrypted\n" + encrypted_tweet
+        twitter_management.post(twitter, encrypted_tweet)
+        return 'Tweet realizado'
+    else:
+        return 'No tiene public key'
 
 @app.route('/receive', methods=['GET'])
 def receive():
-    return 'TODO'
+    user = request.json["user"]
+    private_key = keys_management.read_key("private_key.pem")
+    tweets = twitter_management.get_tweets_from_user(twitter, user, private_key)
+    return jsonify(tweets)
 
 @app.route('/generate', methods=['GET'])
 def generate():
@@ -39,7 +48,7 @@ def generate():
     public_key = keys_management.read_key("private_key.pem").public_key()
     public_key = keys_management.convert_to_string(public_key)
     public_key = "#PubKey\n" + public_key
-    twitter_management.post_key(twitter, public_key) # Esta linea public la public key en el perfil
+    twitter_management.post(twitter, public_key) # Esta linea public la public key en el perfil
     return 'Keys generadas y public key twiteada'
 
 app.run(host='localhost', port=8080, debug=True)

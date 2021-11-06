@@ -51,4 +51,10 @@ def generate():
     twitter_management.post(twitter, public_key) # Esta linea public la public key en el perfil
     return 'Keys generadas y public key twiteada'
 
+@app.route('/get-tweets', methods=['GET'])
+def get_tweets():
+    private_key = keys_management.read_key("private_key.pem")
+    tweets = twitter_management.get_tweets(twitter, private_key)
+    return jsonify(tweets)
+
 app.run(host='localhost', port=8080, debug=True)

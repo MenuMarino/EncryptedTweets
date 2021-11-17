@@ -30,3 +30,14 @@ def search_hashtag(user_timeline, hashtag):
                 tweets.append(parse_text(tweet['full_text'], len(hashtag) + 1))
 
     return tweets
+
+def clean_key(key):
+    nkey = ''
+    text = False
+    for i in key:
+        if(text):
+            nkey = nkey + i
+        if(i == '\n'):
+            text = not text
+    return key    
+

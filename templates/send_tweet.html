@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>simple_light - contact us</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <div id="logo_text">
+          <!-- class="logo_colour", allows you to change the colour of the text -->
+          <h1><a href="index.html"><span class="logo_colour">Encrypted Tweets</span></a></h1>
+          
+        </div>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
+          <li><a href="/">Home</a></li>
+          <li class="selected"><a href="{{ url_for('p1', filename='send_tweet.html') }}">Send Tweet</a></li>
+          <li><a href="{{ url_for('p2',filename='receive_tweet.html') }}">Receive Tweet</a></li>
+          <li><a href="{{ url_for('p3',filename='generate_keys.html') }}">Generate Keys</a></li>
+          <li><a href="{{ url_for('p4',filename='get_tweets.html') }}">Get Tweets</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content">
+      
+      <div id="content">
+        <h1>Enviar Tweet</h1>
+        <form action="#" method="post">
+          <div class="form_settings">
+            <p><span>User</span><input class="contact" type="text" name="your_name" value="" /></p>
+            <p><span>Message</span><textarea class="contact textarea" rows="8" cols="50" name="your_enquiry"></textarea></p>
+            <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" type="submit" name="contact_submitted" value="submit" /></p>
+          </div>
+        </form>
+        </div>
+    </div>
+    
+  </div>
+</body>
+</html>

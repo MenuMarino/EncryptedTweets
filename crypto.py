@@ -13,6 +13,7 @@ def encrypt(message, key):
     return encrypted
 
 def decrypt(encrypted_message, key):
+    print("KEY",key)
     original_message = key.decrypt(
         encrypted_message,
         padding.OAEP(

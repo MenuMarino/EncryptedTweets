@@ -13,9 +13,10 @@ def get_key_from_user(twitter, user):
         print(e)
 
     pubkey = twitter_management_funcs.search_hashtag(user_timeline, 'PubKey')
-
+    
+    #print(twitter_management_funcs.clean_key(pubkey))
     if pubkey:
-        return twitter_management_funcs.parse_text(pubkey[0]['full_text'], 7)
+        return twitter_management_funcs.parse_text(pubkey[0], 7)
     else:
         return None
 
@@ -40,7 +41,6 @@ def get_tweets_from_user(twitter, user, key):
 def get_tweets(twitter, key):
     timeline = twitter.get_home_timeline(tweet_mode='extended')
     tweets = twitter_management_funcs.search_hashtag(timeline, 'Encrypted')
-
     decoded_tweets = []
     for tweet in tweets:
         decoded_tweets.append(twitter_management_funcs.decode_tweet(tweet))

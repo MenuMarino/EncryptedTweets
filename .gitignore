@@ -1,4 +1,5 @@
 *.pem
 vscode/
+.vscode/
 __pycache__/
 .env

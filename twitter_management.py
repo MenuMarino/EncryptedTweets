@@ -44,9 +44,12 @@ def get_tweets(twitter, key):
     decoded_tweets = []
     for tweet in tweets:
         decoded_tweets.append(twitter_management_funcs.decode_tweet(tweet))
-
+    
     decrypted_tweets = []
     for tweet in decoded_tweets:
-        decrypted_tweets.append(crypto.decrypt(tweet, key))
+        try:
+            decrypted_tweets.append(crypto.decrypt(tweet, key))
+        except:
+            print("El tweet no era para ti")
 
     return decrypted_tweets

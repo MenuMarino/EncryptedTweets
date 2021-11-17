@@ -9,18 +9,12 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-'''
+
 APP_KEY = os.getenv('APP_KEY') # Consumer key
 APP_SECRET = os.getenv('APP_SECRET') # Consumer secret
 OAUTH_TOKEN = os.getenv('AUTH_TOKEN')
 OAUTH_TOKEN_SECRET = os.getenv('AUTH_SECRET')
-'''
-APP_KEY = 'IXDLY6HuNGXfw5DHeEOAAr3Tz'
-APP_SECRET = '4fYM0MPuspuNnKjUhYbdCe2GD5wfTnfREuuVmZ6kNaxfST17C6'
-OAUTH_TOKEN = '1123348351846625280-G6YN9t9yuJaKcvBIekhdEpBooVLixq'
-OAUTH_TOKEN_SECRET= '8TemMbe5Z1hsmkjApjy3wmYUB6CqbeIoriaqjBypi0ocd'
 
-print(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 
 app = Flask(__name__)

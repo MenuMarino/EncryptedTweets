@@ -34,14 +34,39 @@
       
       <div id="content">
         <h1>Enviar Tweet</h1>
-        <form action="#" method="post">
-          <div class="form_settings">
-            <p><span>User</span><input class="contact" type="text" name="your_name" value="" /></p>
-            <p><span>Message</span><textarea class="contact textarea" rows="8" cols="50" name="your_enquiry"></textarea></p>
-            <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" type="submit" name="contact_submitted" value="submit" /></p>
-          </div>
-        </form>
+        
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" class="form-control" id="user" placeholder="Enter username"> 
         </div>
+        <div class="form-group">
+          <label>Tweet</label>
+          <input type="text" class="form-control" id="tweet" placeholder="Message"> 
+        </div>
+        <button class="btn btn-primary" onclick="submit_entry();">Submit</button>
+        <script>
+          function submit_entry(){
+            var user = document.getElementById('user');
+            var tweet = document.getElementById('tweet');
+      
+            var entry = {
+              user: user.value,
+              tweet: tweet.value
+            };
+      
+      
+            fetch(`${window.origin}/send`, {
+              method: "POST",
+              credentials: "include",
+              body: JSON.stringify(entry),
+              cache: "no-cache",
+              headers: new Headers({
+                "content-type":"application/json"
+              })
+            })
+          }
+        </script>
+      </div>
     </div>
     
   </div>

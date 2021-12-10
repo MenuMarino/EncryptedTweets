@@ -3,22 +3,34 @@ import keys_management
 import crypto
 import twitter_management
 import twitter_management_funcs
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 from twython import Twython
 import os
 from dotenv import load_dotenv
+from authlib.integrations.flask_client import OAuth
 
 load_dotenv()
 
-
-APP_KEY="IXDLY6HuNGXfw5DHeEOAAr3Tz"
-APP_SECRET="4fYM0MPuspuNnKjUhYbdCe2GD5wfTnfREuuVmZ6kNaxfST17C6"
-OAUTH_TOKEN="1123348351846625280-G6YN9t9yuJaKcvBIekhdEpBooVLixq"
-OAUTH_TOKEN_SECRET="8TemMbe5Z1hsmkjApjy3wmYUB6CqbeIoriaqjBypi0ocd"
-
-twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
+APP_KEY = os.getenv('APP_KEY')
+APP_SECRET = os.getenv('APP_SECRET')
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
+oauth = OAuth(app)
+
+oauth.register(
+    name='twitter',
+    client_id=APP_KEY,
+    client_secret=APP_SECRET,
+    request_token_url='https://api.twitter.com/oauth/request_token',
+    request_token_params=None,
+    access_token_url='https://api.twitter.com/oauth/access_token',
+    access_token_params=None,
+    authorize_url='https://api.twitter.com/oauth/authenticate',
+    authorize_params=None,
+    api_base_url='https://api.twitter.com/1.1/',
+    client_kwargs=None,
+)
 
 @app.route('/')
 def landing():
@@ -40,6 +52,26 @@ def p3():
 def p4():
     return (render_template("get_tweets.html"))
 
+@app.route('/login')
+def login():
+    redirect_uri = url_for('authorize', _external=True)
+    return oauth.twitter.authorize_redirect(redirect_uri)
+
+@app.route('/authorize')
+def authorize():
+    global OAUTH_TOKEN
+    global OAUTH_TOKEN_SECRET
+    global twitter
+
+    token = oauth.twitter.authorize_access_token()
+    resp = oauth.twitter.get('account/verify_credentials.json')
+    resp.raise_for_status()
+    OAUTH_TOKEN = token['oauth_token']
+    OAUTH_TOKEN_SECRET = token['oauth_token_secret']
+    print(OAUTH_TOKEN)
+    print(OAUTH_TOKEN_SECRET)
+    twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
+    return redirect('/')
 
 @app.route('/send', methods=['POST'])
 def send():

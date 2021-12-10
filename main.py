@@ -68,8 +68,6 @@ def authorize():
     resp.raise_for_status()
     OAUTH_TOKEN = token['oauth_token']
     OAUTH_TOKEN_SECRET = token['oauth_token_secret']
-    print(OAUTH_TOKEN)
-    print(OAUTH_TOKEN_SECRET)
     twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
     return redirect('/')
 

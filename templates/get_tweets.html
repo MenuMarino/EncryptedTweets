@@ -22,10 +22,10 @@
       <div id="menubar">
         <ul id="menu">
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
-          <li><a href="/">Home</a></li>
+          <li><a href="/login_session_keys">Home</a></li>
           <li ><a href="{{ url_for('p1', filename='send_tweet.html') }}">Send Tweet</a></li>
           <li><a href="{{ url_for('p2',filename='receive_tweet.html') }}">Receive Tweet</a></li>
-          <li ><a href="{{ url_for('p3',filename='generate_keys.html') }}">Generate Keys</a></li>
+          
           <li class="selected"><a href="{{ url_for('p4',filename='get_tweets.html') }}">Get Tweets</a></li>
         </ul>
       </div>
@@ -33,6 +33,40 @@
     <div id="site_content">
       
       <div id="content">
+        <h1>Enviar Tweet</h1>
+        
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" class="form-control" id="user" placeholder="Enter username"> 
+        </div>
+        <div class="form-group">
+          <label>Tweet</label>
+          <input type="text" class="form-control" id="tweet" placeholder="Message"> 
+        </div>
+        <button class="btn btn-primary" onclick="submit_entry();">Submit</button>
+        <script>
+          function submit_entry(){
+            var user = document.getElementById('user');
+            var tweet = document.getElementById('tweet');
+      
+            var entry = {
+              user: user.value,
+              tweet: tweet.value
+            };
+      
+      
+            fetch(`${window.origin}/send`, {
+              method: "POST",
+              credentials: "include",
+              body: JSON.stringify(entry),
+              cache: "no-cache",
+              headers: new Headers({
+                "content-type":"application/json"
+              })
+            })
+          }
+        </script>
+
         </div>
     </div>
     

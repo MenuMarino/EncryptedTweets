@@ -11,8 +11,8 @@ from authlib.integrations.flask_client import OAuth
 
 load_dotenv()
 
-APP_KEY = os.getenv('APP_KEY')
-APP_SECRET = os.getenv('APP_SECRET')
+APP_KEY="rfInTtyuJU3UHwGzOHIZl17UW"
+APP_SECRET="a14MIZUFfHDmI9E26winqj2fF57ceD2XP6dE9JXw1ZBsDLPIuu"
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -35,6 +35,14 @@ oauth.register(
 @app.route('/')
 def landing():
     return (render_template("index.html"))
+
+@app.route('/login_session')
+def login_sucess():
+    return (render_template("login_session.html"))
+
+@app.route('/login_session_keys')
+def login_sucess_keys():
+    return (render_template("login_session_keys.html"))
 
 @app.route('/p1')
 def p1():
@@ -71,7 +79,7 @@ def authorize():
     print(OAUTH_TOKEN)
     print(OAUTH_TOKEN_SECRET)
     twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
-    return redirect('/')
+    return redirect('/login_session')
 
 @app.route('/send', methods=['POST'])
 def send():
@@ -84,11 +92,11 @@ def send():
         encrypted_tweet = twitter_management_funcs.encode_tweet(encrypted_tweet)
         encrypted_tweet = "#Encrypted\n" + encrypted_tweet
         twitter_management.post(twitter, encrypted_tweet)
-        return 'Tweet realizado'
+        return jsonify('Tweet realizado')
     else:
-        return 'No tiene public key'
+        return jsonify('No tiene public key')
 
-@app.route('/receive', methods=['GET'])
+@app.route('/receive', methods=['POST'])
 def receive():
     user = request.json["user"]
     private_key = keys_management.read_key("private_key.pem")
@@ -110,5 +118,9 @@ def get_tweets():
     private_key = keys_management.read_key("private_key.pem")
     tweets = twitter_management.get_tweets(twitter, private_key)
     return jsonify(tweets)
+
+@app.route('/check-keys')
+def check_keys():
+    return jsonify(twitter_management.get_key(twitter))
 
 app.run(host='localhost', port=8080, debug=True)

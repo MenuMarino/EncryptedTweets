@@ -20,6 +20,20 @@ def get_key_from_user(twitter, user):
     else:
         return None
 
+def get_key(twitter):
+    try:
+        user_timeline = twitter.get_home_timeline(tweet_mode='extended')
+    except TwythonError as e:
+        print(e)
+
+    pubkey = twitter_management_funcs.search_hashtag(user_timeline, 'PubKey')
+    
+    if pubkey:
+        return "Tienes una key publicada, deseas usar esa?"
+    else:
+        return "No tienes una key publicada, debes generar una"
+
+
 def get_tweets_from_user(twitter, user, key):
     try:
         user_timeline = twitter.get_user_timeline(screen_name=user, tweet_mode='extended')

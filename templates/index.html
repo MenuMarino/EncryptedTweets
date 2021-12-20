@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -38,3 +39,63 @@
   </div>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Encrypted Tweets</title>
+    <meta name="description" content="website description" />
+    <meta name="keywords" content="website keywords, website keywords" />
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div id="main">
+      <div id="header">
+        <div id="logo">
+          <!-- class="logo_colour", allows you to change the colour of the text -->
+          <h1>
+            <a href="index.html"
+              ><span class="logo_colour">Encrypted Tweets</span></a
+            >
+          </h1>
+        </div>
+        <div id="menubar">
+          <ul id="menu">
+            <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
+            <li class="selected"><a href="/">Home</a></li>
+            <li>
+              <a href="{{ url_for('p1', filename='send_tweet.html') }}"
+                >Send Tweet</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('p2',filename='receive_tweet.html') }}"
+                >Receive Tweet</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('p3',filename='generate_keys.html') }}"
+                >Generate Keys</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('p4',filename='get_tweets.html') }}"
+                >Get Tweets</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="site_content">
+        <div id="content"></div>
+      </div>
+    </div>
+  </body>
+</html>
+>>>>>>> 6563e03c00effe1eaf43daa6fc7db12f521fab18
